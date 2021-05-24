@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <!-- import relevant css and script components -->
+    <link rel="stylesheet" href="style.css" />
+    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="./components/template.js"></script>
+    <script src="./components/country.js"></script>
+    <script src="./components/area.js"></script>
+    <script src="./components/city.js"></script>
+    <script src="./components/holiday.js"></script>
+    <script src="./components/weather-hotel.js"></script>
+  </head>
+  <body>
+    <!-- Weather Card Template -->
+    <template id="weather-card-template">
+      <style>
+        .weather-card {
+          position: relative;
+          display: block;
+          width: 520px;
+          margin: 0 auto;
+          color: black;
+        }
+
+        .weather-card .tr-card {
+          padding: 10px;
+          font-family: Arial, Helvetica, sans-serif !important;
+          border: 2px solid black;
+          border-radius: 5px;
+          box-shadow: 0px 2px 30px -14px grey;
+          background-color: white;
+        }
+
+        .tr-card h2,
+        .tr-card h3 {
+          margin: 0;
+          font-weight: bold;
+        }
+
+        .tr-card h2 {
+          font-size: 18px !important;
+        }
+
+        .tr-card h3 {
+          font-size: 14px !important;
+        }
+
+        .tr-card-body {
+          font-size: 16px !important;
+        }
+
+        table {
+          width: 100%;
+        }
+
+        table,
+        th,
+        td {
+          margin-top: 10px;
+          padding: 5px;
+          border-collapse: collapse;
+          border: 1px solid black;
+        }
+
+        .icon {
+          width: 20px;
+        }
+      </style>
+
+      <div class="weather-card">
+        <div class="tr-card">
+          <h2>Date: <span></span></h2>
+          <h3></h3>
+
+          <div class="tr-card-body">
+            <table>
+              <tr>
+                <td>Average Temperature</td>
+                <td id="avgtemp"></td>
+              </tr>
+
+              <tr>
+                <td>Max Temperature</td>
+                <td id="maxtemp"></td>
+              </tr>
+
+              <tr>
+                <td>Min Temperature</td>
+                <td id="mintemp"></td>
+              </tr>
+
+              <tr>
+                <td>Chance of rain</td>
+                <td id="rain"></td>
+              </tr>
+
+              <tr>
+                <td>Max Wind Speed</td>
+                <td id="wind"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- Hotel Card Template -->
+    <template id="hotel-card-template">
+      <style>
+        .hotel-card {
+          display: block;
+          width: 520px;
+          margin: 0 auto;
+          color: black;
+        }
+
+        .hotel-card .tr-card {
+          padding: 10px;
+          font-family: Arial, Helvetica, sans-serif !important;
+          border: 2px solid black;
+          border-radius: 5px;
+          box-shadow: 0px 2px 30px -14px grey;
+          background-color: white;
+        }
+
+        .tr-card h2,
+        .tr-card h3 {
+          margin: 0;
+          font-weight: bold;
+        }
+
+        .tr-card h2 {
+          font-size: 18px !important;
+        }
+
+        .tr-card h3 {
+          font-size: 14px !important;
+        }
+
+        .tr-card-body {
+          font-size: 16px !important;
+        }
+
+        .tr-card-body tr {
+          max-width: 200px;
+        }
+
+        h4 {
+          margin: 0;
+        }
+
+        table {
+          width: 100%;
+        }
+
+        table,
+        th,
+        td {
+          margin-top: 10px;
+          padding: 5px;
+          border-collapse: collapse;
+          border: 1px solid black;
+        }
+
+        .icon {
+          width: 200px;
+        }
+      </style>
+
+      <div class="hotel-card">
+        <div class="tr-card">
+          <h2></h2>
+          <h3></h3>
+
+          <div class="tr-card-body">
+            <table>
+              <tr>
+                <td>
+                  <h4>Address</h4>
+                </td>
+                <td rowspan="6" id="pic"></td>
+              </tr>
+
+              <tr>
+                <td id="addr"></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <h4>Postal Code</h4>
+                </td>
+              </tr>
+
+              <tr>
+                <td id="postalCode"></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <h4>Phone</h4>
+                </td>
+              </tr>
+
+              <tr>
+                <td id="phone"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- Loading alert box  -->
+    <div id="loading-screen">
+      <div id="loading-msg">
+        <i class="fa fa-circle-o-notch" style="font-size: 48px"></i>
+        <h1>Data loading, please wait...</h1>
+      </div>
+    </div>
+
+    <!--Top title box  -->
+    <div id="main-title">
+      <h1>Holiday tour information</h1>
+    </div>
+
+    <!-- Application work box -->
+    <div id="app">
+      <div id="app-form">
+        <div id="country-info" class="input-area">
+          <h2>Select a Country or Region:</h2>
+          <select
+            name="country"
+            id="select-country"
+            onchange="selectCountry();"
+          >
+            <option value="placeholder" hidden>Select a country</option>
+          </select>
+        </div>
+
+        <div id="area-info" style="display: none" class="input-area">
+          <h2>Select a state or province</h2>
+          <select name="area" id="area-list" onchange="selectArea();">
+            <option value="a-placeholder" hidden>Select the area</option>
+          </select>
+        </div>
+
+        <div id="city-info" style="display: none" class="input-area">
+          <h2>Select a city or subordinate district</h2>
+          <select name="city" id="city-list" onchange="selectCity();">
+            <option value="c-placeholder" hidden>Select the city</option>
+          </select>
+        </div>
+
+        <div id="holiday-info" style="display: none" class="input-area">
+          <h2>Public Holidays:</h2>
+          <select
+            name="holiday"
+            id="holiday-list"
+            onchange="selectHoliday();"
+            style="max-width: 580px"
+          >
+            <option value="h-placeholder" hidden>Select a holiday</option>
+          </select>
+        </div>
+
+        <div id="weather-info" style="display: none">
+          <h2>Weather of the selected place</h2>
+          <ul id="weather-list"></ul>
+        </div>
+
+        <div id="ac-info" style="display: none">
+          <h2>Accommodation Rental Info</h2>
+          <!-- This is the default setting of the api, in theory the type of the room (and more) can also be configured -->
+          <p>
+            Below are hotels that can provide at least 1 room for 2 adult guests
+            on the selected date. Hotel data is sorted by distance from the
+            nearest to far.
+          </p>
+          <ul id="ac-list"></ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,167 @@
+/* This is the css format for this project */
+@keyframes r {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  50% {
+    -webkit-transform: rotate(180deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes r {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  50% {
+    -webkit-transform: rotate(180deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spotlight {
+  0% {
+    clip-path: ellipse(100px 100px at 0% 50%);
+    -webkit-clip-path: ellipse(100px 100px at 0% 50%);
+  }
+
+  50% {
+    clip-path: ellipse(100px 100px at 100% 50%);
+    -webkit-clip-path: ellipse(100px 100px at 100% 50%);
+  }
+
+  100% {
+    clip-path: ellipse(100px 100px at 0% 50%);
+    -webkit-clip-path: ellipse(100px 100px at 0% 50%);
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --main-theme: rgb(23, 39, 17);
+  --light-blue: rgb(229, 246, 222);
+  --light-green: rgb(210, 233, 255);
+  --dark-green: rgb(16, 16, 16);
+}
+
+html {
+  font-family: Arial, Helvetica, sans-serif !important;
+  background-color: var(--light-green);
+}
+
+#loading-screen {
+  position: fixed;
+  display: none;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(255, 255, 255, 0);
+  /* Ensure the div is above the page */
+  z-index: 101;
+}
+
+#loading-msg {
+  padding: 20px;
+  color: var(--main-theme);
+  border: 1px solid var(--main-theme);
+  background-color: var(--light-blue);
+  box-shadow: 0px 0px 200px 1px #878787;
+}
+
+.fa.fa-circle-o-notch {
+  animation: r 1s linear infinite;
+}
+
+#main-title {
+  position: relative;
+  width: 600px;
+  margin: 32px auto;
+  color: var(--dark-green);
+  font-size: 1.2em;
+  z-index: 100;
+}
+
+#main-title h1::after {
+  content: attr(data-spotlight);
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: transparent;
+  background-image: linear-gradient(
+    -180deg,
+    rgb(2, 108, 119),
+    rgb(205, 243, 255)
+  );
+  background-size: cover;
+  background-position: center center;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: spotlight 8s infinite;
+}
+
+#app {
+  position: relative;
+  margin: 10px auto;
+  padding: 10px;
+  width: 600px;
+  background-color: var(--light-blue);
+  border: 1px solid var(--dark-green);
+  border-radius: 4px;
+  box-shadow: 0px 0px 6px 1px #acacac;
+  z-index: 100;
+}
+
+.input-area {
+  margin-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--dark-green);
+  background-color: var(--light-blue);
+}
+
+select {
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+#weather-list,
+#ac-list {
+  list-style: none;
+  margin-top: 10px;
+  padding-top: 10px;
+  max-height: 338px;
+  overflow-y: scroll;
+  border-top: 1px solid var(--dark-green);
+  border-bottom: 1px solid var(--dark-green);
+}
+
+#weather-list li,
+#ac-list li {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  color: var(--main-theme);
+  margin: 10px 0;
+}
+
+.content {
+  margin: 20px;
+}
